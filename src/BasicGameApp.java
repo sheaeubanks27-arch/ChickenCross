@@ -38,11 +38,17 @@ public class BasicGameApp implements Runnable {
    public JPanel panel;
    
 	public BufferStrategy bufferStrategy;
-	public Image astroPic;
+	//public Image astroPic;
+    public Image carPic;
+    public Image backgroundPic;
+    public Image chickenPic;
 
    //Declare the objects used in the program
    //These are things that are made up of more than one variable type
 	private Astronaut astro;
+    private Car car;
+    private Chicken chick;
+    public Car[] cars;
 
 
    // Main method definition
@@ -63,11 +69,15 @@ public class BasicGameApp implements Runnable {
        
       //variable and objects
       //create (construct) the objects needed for the game and load up 
-		astroPic = Toolkit.getDefaultToolkit().getImage("astronaut.png"); //load the picture
-		astro = new Astronaut(10,100);
+		//astroPic = Toolkit.getDefaultToolkit().getImage("astronaut.png"); //load the picture
+        //astro = new Astronaut(10,100);
+        backgroundPic = Toolkit.getDefaultToolkit().getImage("road.png");
+        carPic = Toolkit.getDefaultToolkit().getImage("Car.png");
+        chickenPic = Toolkit.getDefaultToolkit().getImage("Chicken.png");
+    }
 
 
-	}// BasicGameApp()
+	}//BasicGameApp()
 
    
 //*******************************************************************************
@@ -92,7 +102,11 @@ public class BasicGameApp implements Runnable {
 	public void moveThings()
 	{
       //calls the move( ) code in the objects
-		astro.move();
+		//astro.move();
+        Car.move();
+        for(int n = 0; n < Car.length; n++) {
+            Car[n].move();
+        }
 
 	}
 	
@@ -141,9 +155,12 @@ public class BasicGameApp implements Runnable {
 	private void render() {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
+        g.drawImage(backgroundPic, 0, 0, WIDTH, HEIGHT, null);
+        g.drawImage(carPic,10 , 0, WIDTH, HEIGHT, null);
+        g.drawImage(chickenPic, 0, 0, WIDTH, HEIGHT, null);
 
       //draw the image of the astronaut
-		g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
+		//g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
 
 		g.dispose();
 
