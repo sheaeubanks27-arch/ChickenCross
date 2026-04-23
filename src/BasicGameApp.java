@@ -77,7 +77,7 @@ public class BasicGameApp implements Runnable {
     }
 
 
-	}//BasicGameApp()
+	//BasicGameApp()
 
    
 //*******************************************************************************
@@ -104,8 +104,8 @@ public class BasicGameApp implements Runnable {
       //calls the move( ) code in the objects
 		//astro.move();
         Car.move();
-        for(int n = 0; n < Car.length; n++) {
-            Car[n].move();
+        //for(int n = 0; n < Car.length; n++) {
+            //Car[n].move();
         }
 
 	}
@@ -156,8 +156,8 @@ public class BasicGameApp implements Runnable {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
         g.drawImage(backgroundPic, 0, 0, WIDTH, HEIGHT, null);
-        g.drawImage(carPic,10 , 0, WIDTH, HEIGHT, null);
-        g.drawImage(chickenPic, 0, 0, WIDTH, HEIGHT, null);
+        g.drawImage(carPic,car.xpos ,car.ypos, car.width, car.height, null);
+        g.drawImage(chickenPic,chick.xpos,chick.ypos, chick.width, chick.height, null);
 
       //draw the image of the astronaut
 		//g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
