@@ -13,8 +13,13 @@ public class Car {
 
 
     public Car() {
-        dy=0;
-        cars = new Car[3];
+        xpos = 10;
+        ypos = 20;
+        width = 40;
+        height = 30;
+
+        //dy=0;
+        //cars = new Car[3];
 
     }
 

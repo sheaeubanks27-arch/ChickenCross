@@ -48,7 +48,7 @@ public class BasicGameApp implements Runnable {
 	private Astronaut astro;
     private Car car;
     private Chicken chick;
-    public Car[] cars;
+    //public Car[] cars;
 
 
    // Main method definition
@@ -74,6 +74,9 @@ public class BasicGameApp implements Runnable {
         backgroundPic = Toolkit.getDefaultToolkit().getImage("road.png");
         carPic = Toolkit.getDefaultToolkit().getImage("Car.png");
         chickenPic = Toolkit.getDefaultToolkit().getImage("Chicken.png");
+
+        car = new Car();
+        chick = new Chicken();
     }
 
 
@@ -103,10 +106,10 @@ public class BasicGameApp implements Runnable {
 	{
       //calls the move( ) code in the objects
 		//astro.move();
-        Car.move();
+        car.move();
         //for(int n = 0; n < Car.length; n++) {
             //Car[n].move();
-        }
+       // }
 
 	}
 	

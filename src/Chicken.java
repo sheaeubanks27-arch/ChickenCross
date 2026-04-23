@@ -12,7 +12,10 @@ public class Chicken {
     public Rectangle hitbox;
 
     public Chicken(){
-
+        xpos = 100;
+        ypos = 60;
+        width = 20;
+        height = 20;
 
 
     }
