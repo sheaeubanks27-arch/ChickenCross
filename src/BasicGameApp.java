@@ -13,6 +13,10 @@
 
 //Graphics Libraries
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.awt.*;
 import javax.swing.JFrame;
@@ -22,7 +26,7 @@ import javax.swing.JPanel;
 //*******************************************************************************
 // Class Definition Section
 
-public class BasicGameApp implements Runnable {
+public class BasicGameApp implements Runnable, KeyListener, MouseListener {
 
    //Variable Definition Section
    //Declare the variables used in the program 
@@ -107,13 +111,41 @@ public class BasicGameApp implements Runnable {
       //calls the move( ) code in the objects
 		//astro.move();
         car.move();
+        chick.move();
+        crashing();
         //for(int n = 0; n < Car.length; n++) {
             //Car[n].move();
        // }
 
 	}
-	
-   //Pauses or sleeps the computer for the amount specified in milliseconds
+
+    public void crashing() {
+        //check to see if my astros crash into each other
+        if (chick.hitbox.intersects(car.hitbox) && chick.isAlive == true) {
+            System.out.println("CRASH");
+            chick.dy = -chick.dy;
+            //astro2.dy = -astro2.dy;
+            chick.isAlive = false;
+
+        }
+        if (asteroid1.hitbox.intersects(asteroid2.hitbox) && asteroid1.isCrashing == false) {
+            System.out.println("asteroid collision");
+            asteroid1.height += 50;
+            asteroid1.height = asteroid1.height + 50;
+            asteroid1.dx = -asteroid1.dx;
+            asteroid2.dx = -asteroid2.dx;
+            asteroid1.isCrashing = true;
+
+        }
+
+        if (!asteroid1.hitbox.intersects(asteroid2.hitbox)) {
+           System.out.println("no intersection");
+          asteroid1.isCrashing = false;
+        }
+    }
+
+
+        //Pauses or sleeps the computer for the amount specified in milliseconds
    public void pause(int time ){
    		//sleep
 			try {
@@ -133,7 +165,12 @@ public class BasicGameApp implements Runnable {
    
       // creates a canvas which is a blank rectangular area of the screen onto which the application can draw
       // and trap input events (Mouse and Keyboard events)
-      canvas = new Canvas();  
+      canvas = new Canvas();
+
+       //step 2: set canvas as the KeyListener
+       canvas.addKeyListener(this);
+       //step 2: set canvas as the MouseListener
+       canvas.addMouseListener(this);
       canvas.setBounds(0, 0, WIDTH, HEIGHT);
       canvas.setIgnoreRepaint(true);
    
@@ -169,4 +206,52 @@ public class BasicGameApp implements Runnable {
 
 		bufferStrategy.show();
 	}
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == 38) {
+            System.out.println("pressed up arrow");
+            chick.dx = 2;
+        }
+
+        if(e.getKeyCode() == 40){
+            System.out.println("pressed bottom arrow");
+            chick.dx = -2;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }

@@ -13,10 +13,12 @@ public class Car {
 
 
     public Car() {
-        xpos = 10;
-        ypos = 20;
-        width = 40;
-        height = 30;
+        xpos = 170;
+        ypos = 10;
+        width = 200;
+        height = 200;
+        dy=10;
+        dx=0;
 
         //dy=0;
         //cars = new Car[3];
@@ -41,6 +43,10 @@ public class Car {
         if (ypos < 0) {//wrap when hits top wall
             ypos = 699 - height;
         }
+
+        xpos = xpos + dx;
+        ypos = ypos + dy;
+        hitbox = new Rectangle(xpos,ypos,width,height);
 
 
     }
