@@ -6,25 +6,25 @@ public class Car {
     public int ypos;                //the y position
     public int dx;                    //the speed of the hero in the x direction
     public int dy;                    //the speed of the hero in the y direction
-    public int width;
-    public int height;
-    public boolean isAlive;             //a boolean to denote if the hero is alive or dead.
+    public int width;// width of the car image
+    public int height;// height of the car image
+    public boolean notCrashed;             //a boolean to denote if the hero is alive or dead.
     public Rectangle hitbox;
 
-
-    public Car() {
-        xpos = 170;
-        ypos = 10;
+//constructor that gives values to the variables listed above
+    public Car(int pXpos, int pYpos) {
+        xpos = pXpos;
+        ypos = pYpos;
         width = 200;
         height = 200;
-        dy=10;
+        dy=1;
         dx=0;
+        notCrashed = true;
 
-        //dy=0;
-        //cars = new Car[3];
+
 
     }
-
+//method that makes car move
     public void move() {
         if (xpos >= 1000) {//wrap when hits right wall
             xpos = 1;
@@ -43,7 +43,7 @@ public class Car {
         if (ypos < 0) {//wrap when hits top wall
             ypos = 699 - height;
         }
-
+//creates hitbox
         xpos = xpos + dx;
         ypos = ypos + dy;
         hitbox = new Rectangle(xpos,ypos,width,height);

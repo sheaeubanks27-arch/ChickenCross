@@ -46,13 +46,17 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
     public Image carPic;
     public Image backgroundPic;
     public Image chickenPic;
+    public Image turtlePic;
+    public Image GameOverPic;
+
 
    //Declare the objects used in the program
    //These are things that are made up of more than one variable type
 	private Astronaut astro;
-    private Car car;
+    //private Car car;
     private Chicken chick;
-    //public Car[] cars;
+    private Turtle turtle;
+    public Car[] cars;
 
 
    // Main method definition
@@ -72,15 +76,22 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
       setUpGraphics();
        
       //variable and objects
-      //create (construct) the objects needed for the game and load up 
-		//astroPic = Toolkit.getDefaultToolkit().getImage("astronaut.png"); //load the picture
-        //astro = new Astronaut(10,100);
+      //create (construct) the objects needed for the game and load up
         backgroundPic = Toolkit.getDefaultToolkit().getImage("road.png");
         carPic = Toolkit.getDefaultToolkit().getImage("Car.png");
         chickenPic = Toolkit.getDefaultToolkit().getImage("Chicken.png");
+        turtlePic = Toolkit.getDefaultToolkit().getImage("Turtle.png");
+        GameOverPic = Toolkit.getDefaultToolkit().getImage("GameOver.jpeg");
 
-        car = new Car();
+
         chick = new Chicken();
+        turtle = new Turtle();
+
+
+
+
+       // }
+        carLocation();
     }
 
 
@@ -104,44 +115,80 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
          pause(20); // sleep for 10 ms
 		}
 	}
+//method that gives locations to all of the cars in the cars array
+public void carLocation(){
+        cars= new Car[4];
+
+        Car a1 = new Car(0,0);
+        a1.move();
+
+    cars[0] = new Car(320,10);
+    cars[0].xpos = 320;
+    cars[0].ypos = 10;
+    cars[0].move();
+
+    cars[1] = new Car(470,10);
+    cars[1].xpos = 470;
+    cars[1].ypos = 10;
+    cars[1].dy = 10;
+    cars[1].move();
+
+    cars[2] = new Car(620,10);
+    cars[2].xpos = 620;
+    cars[2].ypos = 10;
+    cars[2].ypos = 3;
+    cars[2].move();
+
+    cars[3] = new Car(170,10);
+    cars[3].xpos = 170 ;
+    cars[3].ypos = 10;
+    cars[3].ypos = 7;
+    cars[3].move();
 
 
+
+
+}
+//method that makes the cars stop when they intersect with the turtle
+public void Block(){
+    //if (turtle.hitbox.intersects(car.hitbox) && turtle.isAlive == true) {
+       // System.out.println("Turtle Block!");
+       // car.dy = 0;
+
+    for(int i = 0; i < cars.length; i++){
+        if(cars[i].hitbox.intersects(turtle.hitbox)){
+            cars[i].dy=0;
+
+        }
+    }
+
+   // }
+}
 	public void moveThings()
 	{
       //calls the move( ) code in the objects
-		//astro.move();
-        car.move();
         chick.move();
         crashing();
-        //for(int n = 0; n < Car.length; n++) {
-            //Car[n].move();
-       // }
+        turtle.move();
+        Block();
+//makes the cars move
+        for(int n = 0; n < cars.length; n++) {
+            cars[n].move();
+        }
 
 	}
 
     public void crashing() {
-        //check to see if my astros crash into each other
-        if (chick.hitbox.intersects(car.hitbox) && chick.isAlive == true) {
-            System.out.println("CRASH");
-            chick.dy = -chick.dy;
-            //astro2.dy = -astro2.dy;
+        //check to see if the cars crash into the chicken
+
+        for(int i = 0; i < cars.length; i++){
+            if(cars[i].hitbox.intersects(chick.hitbox)){
             chick.isAlive = false;
 
-        }
-        if (asteroid1.hitbox.intersects(asteroid2.hitbox) && asteroid1.isCrashing == false) {
-            System.out.println("asteroid collision");
-            asteroid1.height += 50;
-            asteroid1.height = asteroid1.height + 50;
-            asteroid1.dx = -asteroid1.dx;
-            asteroid2.dx = -asteroid2.dx;
-            asteroid1.isCrashing = true;
-
+            }
         }
 
-        if (!asteroid1.hitbox.intersects(asteroid2.hitbox)) {
-           System.out.println("no intersection");
-          asteroid1.isCrashing = false;
-        }
+
     }
 
 
@@ -196,11 +243,30 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
         g.drawImage(backgroundPic, 0, 0, WIDTH, HEIGHT, null);
-        g.drawImage(carPic,car.xpos ,car.ypos, car.width, car.height, null);
-        g.drawImage(chickenPic,chick.xpos,chick.ypos, chick.width, chick.height, null);
+        //if(car.notCrashed == true) {
+           // g.drawImage(carPic, car.xpos, car.ypos, car.width, car.height, null);
+       // }
+       //draws chicken only when it is alive in the game(makes it dissapear when it dies)
+        if(chick.isAlive == true) {
+           g.drawImage(chickenPic, chick.xpos, chick.ypos, chick.width, chick.height, null);
+       }
+        //Draws turtle
+       if(turtle.isAlive == true){
+           g.drawImage(turtlePic, turtle.xpos, turtle.ypos, turtle.width, turtle.height, null);
+       }
+       //draws the game over screen when chick dies
+       if(chick.isAlive == false){
+          g.drawImage(GameOverPic, 0, 0, WIDTH, HEIGHT, null);
+      }
 
-      //draw the image of the astronaut
-		//g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
+
+
+
+// draws all of the car images in the array
+        for(int z = 0; z < cars.length; z++){
+            g.drawImage(carPic, cars[z].xpos, cars[z].ypos, cars[z].width, cars[z].height, null);
+        }
+
 
 		g.dispose();
 
@@ -211,17 +277,17 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
     public void keyTyped(KeyEvent e) {
 
     }
-
+//lets the player controll the chicken's movement in the right and left direction using arrow keys
     @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == 38) {
-            System.out.println("pressed up arrow");
-            chick.dx = 2;
+        if(e.getKeyCode() == 39) {
+            System.out.println("pressed right arrow");
+            chick.dx = Math.abs(chick.dx);
         }
 
-        if(e.getKeyCode() == 40){
-            System.out.println("pressed bottom arrow");
-            chick.dx = -2;
+        if(e.getKeyCode() == 37){
+            System.out.println("pressed left arrow");
+            chick.dx = -Math.abs(chick.dx);
         }
     }
 
@@ -244,14 +310,18 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener {
     public void mouseReleased(MouseEvent e) {
 
     }
-
+// lets the control when the turtle is in screen or not using the mouse(when mouse enters, the turtle is there, when the mouse exits, the turtle isn't there)
     @Override
     public void mouseEntered(MouseEvent e) {
+        System.out.println("turtle entered");
+        turtle.isAlive = true;
 
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+        turtle.isAlive = false;
+
 
     }
 }

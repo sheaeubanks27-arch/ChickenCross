@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Chicken {
+public class Turtle {
     public String name;                //holds the name of the hero
     public int xpos;                //the x position
     public int ypos;                //the y position
@@ -11,47 +11,39 @@ public class Chicken {
     public boolean isAlive;             //a boolean to denote if the hero is alive or dead.
     public Rectangle hitbox;
 
-    public Chicken(){
-        xpos = 100;
-        ypos = 350;
-        width = 60;
-        height = 60;
-        dy=0;
-        dx=2;
+    public Turtle(){
+        width=50;
+        height=50;
         isAlive = true;
-
-
+       //gives random x and y position
+        xpos = (int)(Math.random()*1000) + 1;
+        ypos = (int)(Math.random()*700) +1 ;
+        dx=7;
+        dy=8;
     }
 
-    public void move(){
-        if(xpos >= 1000){//wrap when hits right wall
-            xpos = 1;
+    public void move() {
+        if(xpos >= 1000-width){//bounce off the right wall
+            dx = -dx;
 
         }
 
-        if (xpos <= 0){//wrap when hits left wall
-            xpos = 999;
 
-        }
-
-        if (ypos >= 700){//wrap when hits bottom wall
-            ypos = 1;
-        }
-
-        if (ypos < 0){//wrap when hits top wall
-            ypos = 699-height;
+        if(xpos <=0){//bounce off the left wall
+            dx = -dx;
         }
 
 
+        if(ypos >= 700-height){//bounce off the bottom wall
+            dy = -dy;
+        }
 
-
-
-        //todo: make it wrap when it his the top and bottom
+        if(ypos <=0){//bounce off the top wall
+            dy = -dy;
+        }
         xpos = xpos + dx;
         ypos = ypos + dy;
         hitbox = new Rectangle(xpos,ypos,width,height);
 
     }
-
-
 }
